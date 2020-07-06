@@ -70,7 +70,6 @@ public class GnssMeasurementHandlerImpl implements EventChannel.StreamHandler {
                 HashMap<String, Object> resultMap = new HashMap<>();
                 resultMap.put("contents", eventArgs.describeContents());
                 resultMap.put("string", eventArgs.toString());
-                resultMap.put("status", eventArgs.getClock());
 
                 GnssClock clock = eventArgs.getClock();
                 HashMap<String, Object> clockMap = new HashMap<>();
