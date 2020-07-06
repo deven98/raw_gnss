@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:raw_gnss/gnss_measurement_model.dart';
 
 class RawGnss {
 
@@ -27,7 +28,7 @@ class RawGnss {
     if (_gnssNavigationMessageEvents == null) {
       _gnssNavigationMessageEvents = _gnssNavigationMessageEventChannel
           .receiveBroadcastStream()
-          .map((dynamic event) => event);
+          .map((dynamic event) => GnssMeasurementModel.fromJson(new Map<String, dynamic>.from(event)));
     }
     return _gnssNavigationMessageEvents;
   }
