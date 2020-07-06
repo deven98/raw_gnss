@@ -14,7 +14,7 @@ class RawGnss {
   Stream _gnssMeasurementEvents;
   Stream _gnssNavigationMessageEvents;
 
-  Stream get gnssMeasurementEvents {
+  Stream<GnssMeasurementModel> get gnssMeasurementEvents {
     if (_gnssMeasurementEvents == null) {
       _gnssMeasurementEvents = _gnssMeasurementEventChannel
           .receiveBroadcastStream()
