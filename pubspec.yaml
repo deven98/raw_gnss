@@ -1,8 +1,8 @@
 name: raw_gnss
 description: A new Flutter plugin.
-version: 0.0.1
-author:
-homepage:
+version: 0.1.0
+author: Deven Joshi <deven9852@gmail.com>
+homepage: https://www.github.com/deven98/raw_gnss
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

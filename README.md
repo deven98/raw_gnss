@@ -1,14 +1,26 @@
 # raw_gnss
 
-A new Flutter plugin.
+## Get Raw GNSS Data On Android
 
-## Getting Started
+Since Android 7.0, Android exposed the GNSS APIs required to get raw data points opening up the location black box earlier.
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+raw_gnss allows you to easily fetch the GNSSMeasurementEvents and GNSSNavigationMessages via inbuilt streams.
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+### Example: Fetch GNSSMeasurementModels
+
+        StreamBuilder<GnssMeasurementModel>(
+          builder: (context, snapshot) {
+            if(snapshot.data == null) {
+              return CircularProgressIndicator();
+            }
+            
+            return ListView.builder(itemBuilder: (context, position) {
+              return ListTile(
+                title: Text("Satellite: ${snapshot.data.measurements[position].svid}"),
+              );
+            });
+          },
+          stream: RawGnss().gnssMeasurementEvents,
+        ),
+
+iOS does not yet expose raw location data, hence this plugin does not support iOS as of yet.
