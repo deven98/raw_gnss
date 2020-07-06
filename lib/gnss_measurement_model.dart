@@ -24,7 +24,7 @@ class GnssMeasurementModel {
   factory GnssMeasurementModel.fromJson(Map<String, dynamic> json) => GnssMeasurementModel(
     contents: json["contents"] == null ? null : json["contents"],
     string: json["string"] == null ? null : json["string"],
-    measurements: json["measurements"] == null ? null : List<Measurement>.from(json["measurements"].map((x) => Measurement.fromJson(x))),
+    //measurements: json["measurements"] == null ? null : List<Measurement>.from(json["measurements"].map((x) => Measurement.fromJson(x))),
     //clock: json["clock"] == null ? null : Clock.fromJson(json["clock"]),
   );
 
