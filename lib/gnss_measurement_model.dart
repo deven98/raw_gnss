@@ -10,6 +10,7 @@ GnssMeasurementModel gnssMeasurementModelFromJson(String str) =>
 String gnssMeasurementModelToJson(GnssMeasurementModel data) =>
     json.encode(data.toJson());
 
+/// Model for the GnssMeasurement class in Android
 class GnssMeasurementModel {
   GnssMeasurementModel({
     this.contents,
