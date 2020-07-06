@@ -10,27 +10,27 @@ class RawGnss {
   static const EventChannel _gnssNavigationMessageEventChannel =
   EventChannel('dev.joshi.raw_gnss/gnss_navigation_message');
 
-  Stream _accelerometerEvents;
-  Stream _gyroscopeEvents;
+  Stream _gnssMeasurementEvents;
+  Stream _gnssNavigationMessageEvents;
 
   /// A broadcast stream of events from the device accelerometer.
-  Stream get accelerometerEvents {
-    if (_accelerometerEvents == null) {
-      _accelerometerEvents = _gnssMeasurementEventChannel
+  Stream get gnssMesasurementEvents {
+    if (_gnssMeasurementEvents == null) {
+      _gnssMeasurementEvents = _gnssMeasurementEventChannel
           .receiveBroadcastStream()
           .map(
               (dynamic event) => event);
     }
-    return _accelerometerEvents;
+    return _gnssMeasurementEvents;
   }
 
   /// A broadcast stream of events from the device gyroscope.
-  Stream get gyroscopeEvents {
-    if (_gyroscopeEvents == null) {
-      _gyroscopeEvents = _gnssNavigationMessageEventChannel
+  Stream get gnssNavigationMessageEvents {
+    if (_gnssNavigationMessageEvents == null) {
+      _gnssNavigationMessageEvents = _gnssNavigationMessageEventChannel
           .receiveBroadcastStream()
           .map((dynamic event) => event);
     }
-    return _gyroscopeEvents;
+    return _gnssNavigationMessageEvents;
   }
 }
