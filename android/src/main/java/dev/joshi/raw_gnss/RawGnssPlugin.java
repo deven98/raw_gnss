@@ -31,11 +31,13 @@ public class RawGnssPlugin implements FlutterPlugin {
 
   private EventChannel gnssMeasurementChannel;
   private EventChannel gnssNavigationMessageChannel;
+  private LocationManager locationManager;
+  private Context context;
 
   @RequiresApi(api = Build.VERSION_CODES.N)
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    final Context context = flutterPluginBinding.getApplicationContext();
+    context = flutterPluginBinding.getApplicationContext();
     setupEventChannels(context, flutterPluginBinding.getBinaryMessenger());
   }
 
@@ -61,7 +63,7 @@ public class RawGnssPlugin implements FlutterPlugin {
 
   @RequiresApi(api = Build.VERSION_CODES.N)
   private void setupEventChannels(Context context, BinaryMessenger messenger) {
-    LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+    locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
     gnssMeasurementChannel = new EventChannel(messenger, GNSS_MEASUREMENT_CHANNEL_NAME);
     gnssNavigationMessageChannel = new EventChannel(messenger, GNSS_NAVIGATION_MESSAGE_CHANNEL_NAME);
 
