@@ -3,8 +3,11 @@ package dev.joshi.raw_gnss;
 import android.location.GnssClock;
 import android.location.GnssMeasurement;
 import android.location.GnssMeasurementsEvent;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 
@@ -17,6 +20,27 @@ import io.flutter.plugin.common.EventChannel;
 public class GnssMeasurementHandlerImpl implements EventChannel.StreamHandler {
     LocationManager locationManager;
     GnssMeasurementsEvent.Callback listener;
+    LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+
+        }
+    };
 
     GnssMeasurementHandlerImpl(LocationManager manager) {
         locationManager = manager;
@@ -27,12 +51,14 @@ public class GnssMeasurementHandlerImpl implements EventChannel.StreamHandler {
     public void onListen(Object arguments, EventChannel.EventSink events) {
         listener = createSensorEventListener(events);
         locationManager.registerGnssMeasurementsCallback(listener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0.0f, locationListener);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCancel(Object arguments) {
         locationManager.unregisterGnssMeasurementsCallback(listener);
+        locationManager.removeUpdates(locationListener);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

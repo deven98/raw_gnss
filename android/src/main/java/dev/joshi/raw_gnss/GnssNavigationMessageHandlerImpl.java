@@ -13,17 +13,13 @@ import androidx.annotation.RequiresApi;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import io.flutter.plugin.common.EventChannel;
 
 public class GnssNavigationMessageHandlerImpl implements EventChannel.StreamHandler {
     LocationManager locationManager;
     GnssNavigationMessage.Callback listener;
-
-    private static final long LOCATION_RATE_GPS_MS = TimeUnit.SECONDS.toMillis(1L);
-
-    private LocationListener locationListener = new LocationListener() {
+    LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
 
@@ -54,11 +50,7 @@ public class GnssNavigationMessageHandlerImpl implements EventChannel.StreamHand
     public void onListen(Object arguments, EventChannel.EventSink events) {
         listener = createSensorEventListener(events);
         locationManager.registerGnssNavigationMessageCallback(listener);
-        locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
-                LOCATION_RATE_GPS_MS,
-                0.0f,
-                locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0.0f, locationListener);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
