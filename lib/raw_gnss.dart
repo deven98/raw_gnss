@@ -13,8 +13,7 @@ class RawGnss {
   Stream _gnssMeasurementEvents;
   Stream _gnssNavigationMessageEvents;
 
-  /// A broadcast stream of events from the device accelerometer.
-  Stream get gnssMesasurementEvents {
+  Stream get gnssMeasurementEvents {
     if (_gnssMeasurementEvents == null) {
       _gnssMeasurementEvents = _gnssMeasurementEventChannel
           .receiveBroadcastStream()
@@ -24,7 +23,6 @@ class RawGnss {
     return _gnssMeasurementEvents;
   }
 
-  /// A broadcast stream of events from the device gyroscope.
   Stream get gnssNavigationMessageEvents {
     if (_gnssNavigationMessageEvents == null) {
       _gnssNavigationMessageEvents = _gnssNavigationMessageEventChannel
