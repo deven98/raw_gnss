@@ -8,6 +8,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.RequiresApi;
 
@@ -19,6 +21,7 @@ import io.flutter.plugin.common.EventChannel;
 public class GnssNavigationMessageHandlerImpl implements EventChannel.StreamHandler {
     LocationManager locationManager;
     GnssNavigationMessage.Callback listener;
+    private Handler uiThreadHandler = new Handler(Looper.getMainLooper());
     LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
@@ -74,7 +77,8 @@ public class GnssNavigationMessageHandlerImpl implements EventChannel.StreamHand
                 resultMap.put("subMessageId", event.getSubmessageId());
                 resultMap.put("svid", event.getSvid());
                 resultMap.put("type", event.getType());
-                events.success(resultMap);
+
+                uiThreadHandler.post(() -> events.success(resultMap));
             }
 
             @Override
