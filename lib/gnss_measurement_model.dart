@@ -12,27 +12,79 @@ class GnssMeasurementModel {
   GnssMeasurementModel({
     this.contents,
     this.string,
-    this.clock,
     this.measurements,
+    this.clock,
   });
 
   int contents;
   String string;
-  Map<String, double> clock;
   List<Measurement> measurements;
+  Clock clock;
 
   factory GnssMeasurementModel.fromJson(Map<String, dynamic> json) => GnssMeasurementModel(
     contents: json["contents"] == null ? null : json["contents"],
     string: json["string"] == null ? null : json["string"],
-    clock: json["clock"] == null ? null : Map.from(json["clock"]).map((k, v) => MapEntry<String, double>(k, v.toDouble())),
     measurements: json["measurements"] == null ? null : List<Measurement>.from(json["measurements"].map((x) => Measurement.fromJson(x))),
+    clock: json["clock"] == null ? null : Clock.fromJson(json["clock"]),
   );
 
   Map<String, dynamic> toJson() => {
     "contents": contents == null ? null : contents,
     "string": string == null ? null : string,
-    "clock": clock == null ? null : Map.from(clock).map((k, v) => MapEntry<String, dynamic>(k, v)),
     "measurements": measurements == null ? null : List<dynamic>.from(measurements.map((x) => x.toJson())),
+    "clock": clock == null ? null : clock.toJson(),
+  };
+}
+
+class Clock {
+  Clock({
+    this.contents,
+    this.biasNanos,
+    this.biasUncertaintyNanos,
+    this.driftNanosPerSecond,
+    this.driftUncertaintyNanosPerSecond,
+    this.fullBiasNanos,
+    this.hardwareClockDiscontinuityCount,
+    this.leapSecond,
+    this.timeNanos,
+    this.timeUncertaintyNanos,
+  });
+
+  int contents;
+  double biasNanos;
+  double biasUncertaintyNanos;
+  double driftNanosPerSecond;
+  double driftUncertaintyNanosPerSecond;
+  int fullBiasNanos;
+  int hardwareClockDiscontinuityCount;
+  int leapSecond;
+  int timeNanos;
+  double timeUncertaintyNanos;
+
+  factory Clock.fromJson(Map<String, dynamic> json) => Clock(
+    contents: json["contents"] == null ? null : json["contents"],
+    biasNanos: json["biasNanos"] == null ? null : json["biasNanos"].toDouble(),
+    biasUncertaintyNanos: json["biasUncertaintyNanos"] == null ? null : json["biasUncertaintyNanos"].toDouble(),
+    driftNanosPerSecond: json["driftNanosPerSecond"] == null ? null : json["driftNanosPerSecond"].toDouble(),
+    driftUncertaintyNanosPerSecond: json["driftUncertaintyNanosPerSecond"] == null ? null : json["driftUncertaintyNanosPerSecond"].toDouble(),
+    fullBiasNanos: json["fullBiasNanos"] == null ? null : json["fullBiasNanos"],
+    hardwareClockDiscontinuityCount: json["hardwareClockDiscontinuityCount"] == null ? null : json["hardwareClockDiscontinuityCount"],
+    leapSecond: json["leapSecond"] == null ? null : json["leapSecond"],
+    timeNanos: json["timeNanos"] == null ? null : json["timeNanos"],
+    timeUncertaintyNanos: json["timeUncertaintyNanos"] == null ? null : json["timeUncertaintyNanos"].toDouble(),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "contents": contents == null ? null : contents,
+    "biasNanos": biasNanos == null ? null : biasNanos,
+    "biasUncertaintyNanos": biasUncertaintyNanos == null ? null : biasUncertaintyNanos,
+    "driftNanosPerSecond": driftNanosPerSecond == null ? null : driftNanosPerSecond,
+    "driftUncertaintyNanosPerSecond": driftUncertaintyNanosPerSecond == null ? null : driftUncertaintyNanosPerSecond,
+    "fullBiasNanos": fullBiasNanos == null ? null : fullBiasNanos,
+    "hardwareClockDiscontinuityCount": hardwareClockDiscontinuityCount == null ? null : hardwareClockDiscontinuityCount,
+    "leapSecond": leapSecond == null ? null : leapSecond,
+    "timeNanos": timeNanos == null ? null : timeNanos,
+    "timeUncertaintyNanos": timeUncertaintyNanos == null ? null : timeUncertaintyNanos,
   };
 }
 
