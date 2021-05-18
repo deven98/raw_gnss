@@ -19,10 +19,10 @@ class GnssMeasurementModel {
     this.clock,
   });
 
-  int contents;
-  String string;
-  List<Measurement> measurements;
-  Clock clock;
+  final int? contents;
+  final String? string;
+  final List<Measurement>? measurements;
+  final Clock? clock;
 
   factory GnssMeasurementModel.fromJson(Map<String, dynamic> json) =>
       GnssMeasurementModel(
@@ -42,8 +42,8 @@ class GnssMeasurementModel {
         "string": string == null ? null : string,
         "measurements": measurements == null
             ? null
-            : List<dynamic>.from(measurements.map((x) => x.toJson())),
-        "clock": clock == null ? null : clock.toJson(),
+            : List<dynamic>.from(measurements!.map((x) => x.toJson())),
+        "clock": clock == null ? null : clock!.toJson(),
       };
 }
 
@@ -61,16 +61,16 @@ class Clock {
     this.timeUncertaintyNanos,
   });
 
-  int contents;
-  double biasNanos;
-  double biasUncertaintyNanos;
-  double driftNanosPerSecond;
-  double driftUncertaintyNanosPerSecond;
-  int fullBiasNanos;
-  int hardwareClockDiscontinuityCount;
-  int leapSecond;
-  int timeNanos;
-  double timeUncertaintyNanos;
+  final int? contents;
+  final double? biasNanos;
+  final double? biasUncertaintyNanos;
+  final double? driftNanosPerSecond;
+  final double? driftUncertaintyNanosPerSecond;
+  final int? fullBiasNanos;
+  final int? hardwareClockDiscontinuityCount;
+  final int? leapSecond;
+  final int? timeNanos;
+  final double? timeUncertaintyNanos;
 
   factory Clock.fromJson(Map<String, dynamic> json) => Clock(
         contents: json["contents"] == null ? null : json["contents"],
@@ -143,24 +143,24 @@ class Measurement {
     this.string,
   });
 
-  int contents;
-  double accumulatedDeltaRangeMeters;
-  int accumulatedDeltaRangeState;
-  double accumulatedDeltaRangeUncertaintyMeters;
-  double automaticGainControlLevelDb;
-  double carrierFrequencyHz;
-  double cn0DbHz;
-  int constellationType;
-  int multipathIndicator;
-  double pseudorangeRateMetersPerSecond;
-  double pseudorangeRateUncertaintyMetersPerSecond;
-  int receivedSvTimeNanos;
-  int receivedSvTimeUncertaintyNanos;
-  double snrInDb;
-  int state;
-  int svid;
-  double timeOffsetNanos;
-  String string;
+  final int? contents;
+  final double? accumulatedDeltaRangeMeters;
+  final int? accumulatedDeltaRangeState;
+  final double? accumulatedDeltaRangeUncertaintyMeters;
+  final double? automaticGainControlLevelDb;
+  final double? carrierFrequencyHz;
+  final double? cn0DbHz;
+  final int? constellationType;
+  final int? multipathIndicator;
+  final double? pseudorangeRateMetersPerSecond;
+  final double? pseudorangeRateUncertaintyMetersPerSecond;
+  final int? receivedSvTimeNanos;
+  final int? receivedSvTimeUncertaintyNanos;
+  final double? snrInDb;
+  final int? state;
+  final int? svid;
+  final double? timeOffsetNanos;
+  final String? string;
 
   factory Measurement.fromJson(Map<String, dynamic> json) => Measurement(
         contents: json["contents"] == null ? null : json["contents"],
