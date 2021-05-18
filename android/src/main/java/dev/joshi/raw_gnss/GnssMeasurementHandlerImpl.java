@@ -75,7 +75,7 @@ public class GnssMeasurementHandlerImpl implements EventChannel.StreamHandler {
 
                 ArrayList<HashMap<String, Object>> measurementsMapList  = new ArrayList<>();
 
-                for (int i = 0; i < measurements.size(); i++) {
+                for (int i = 0; i < measurements.size(); ++i) {
                     HashMap<String, Object> map = new HashMap<>();
                     GnssMeasurement measurement = (GnssMeasurement) measurements.toArray()[i];
 
