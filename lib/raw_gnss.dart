@@ -20,8 +20,8 @@ class RawGnss {
     if (_gnssMeasurementEvents == null) {
       _gnssMeasurementEvents = _gnssMeasurementEventChannel
           .receiveBroadcastStream()
-          .map((dynamic event) => GnssMeasurementModel.fromJson(
-              new Map<String, dynamic>.from(event)));
+          .map((event) => GnssMeasurementModel.fromJson(
+              (event as Map<dynamic, dynamic>).cast()));
     }
     return _gnssMeasurementEvents!;
   }
@@ -29,9 +29,8 @@ class RawGnss {
   /// Getter for GnssNavigationMessage events
   Stream get gnssNavigationMessageEvents {
     if (_gnssNavigationMessageEvents == null) {
-      _gnssNavigationMessageEvents = _gnssNavigationMessageEventChannel
-          .receiveBroadcastStream()
-          .map((dynamic event) => event);
+      _gnssNavigationMessageEvents =
+          _gnssNavigationMessageEventChannel.receiveBroadcastStream();
     }
     return _gnssNavigationMessageEvents!;
   }

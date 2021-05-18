@@ -3,13 +3,11 @@ package dev.joshi.raw_gnss;
 import android.location.GnssClock;
 import android.location.GnssMeasurement;
 import android.location.GnssMeasurementsEvent;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -20,30 +18,11 @@ import java.util.HashMap;
 import io.flutter.plugin.common.EventChannel;
 
 public class GnssMeasurementHandlerImpl implements EventChannel.StreamHandler {
+    private static final String TAG = "GNSS_MEASURE";
+
     LocationManager locationManager;
     GnssMeasurementsEvent.Callback listener;
-    private Handler uiThreadHandler = new Handler(Looper.getMainLooper());
-    LocationListener locationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-
-        }
-
-        @Override
-        public void onStatusChanged(String s, int i, Bundle bundle) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String s) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String s) {
-
-        }
-    };
+    private final Handler uiThreadHandler = new Handler(Looper.getMainLooper());
 
     GnssMeasurementHandlerImpl(LocationManager manager) {
         locationManager = manager;
@@ -52,16 +31,16 @@ public class GnssMeasurementHandlerImpl implements EventChannel.StreamHandler {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onListen(Object arguments, EventChannel.EventSink events) {
+        Log.d(TAG, "onListen");
         listener = createSensorEventListener(events);
         locationManager.registerGnssMeasurementsCallback(listener);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0.0f, locationListener);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCancel(Object arguments) {
+        Log.d(TAG, "onCancel");
         locationManager.unregisterGnssMeasurementsCallback(listener);
-        locationManager.removeUpdates(locationListener);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -69,6 +48,8 @@ public class GnssMeasurementHandlerImpl implements EventChannel.StreamHandler {
         return new GnssMeasurementsEvent.Callback() {
             @Override
             public void onGnssMeasurementsReceived(GnssMeasurementsEvent eventArgs) {
+                Log.d(TAG, "onGnssMeasurementsReceived: " + eventArgs.toString());
+
                 super.onGnssMeasurementsReceived(eventArgs);
                 HashMap<String, Object> resultMap = new HashMap<>();
                 resultMap.put("contents", eventArgs.describeContents());
@@ -92,10 +73,10 @@ public class GnssMeasurementHandlerImpl implements EventChannel.StreamHandler {
 
                 Collection<GnssMeasurement> measurements = eventArgs.getMeasurements();
 
-                ArrayList<HashMap<String, Object>> measurementsMapList  = new ArrayList<HashMap<String, Object>>();
+                ArrayList<HashMap<String, Object>> measurementsMapList  = new ArrayList<>();
 
-                for(int i = 0; i < measurements.size(); i++) {
-                    HashMap<String, Object> map = new HashMap<String, Object>();
+                for (int i = 0; i < measurements.size(); i++) {
+                    HashMap<String, Object> map = new HashMap<>();
                     GnssMeasurement measurement = (GnssMeasurement) measurements.toArray()[i];
 
                     map.put("contents", measurement.describeContents());
@@ -129,6 +110,7 @@ public class GnssMeasurementHandlerImpl implements EventChannel.StreamHandler {
 
             @Override
             public void onStatusChanged(int status) {
+                Log.d(TAG, "onStatusChanged: " + status);
                 super.onStatusChanged(status);
             }
         };
