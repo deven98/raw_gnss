@@ -48,7 +48,7 @@ public class GnssMeasurementHandlerImpl implements EventChannel.StreamHandler {
         return new GnssMeasurementsEvent.Callback() {
             @Override
             public void onGnssMeasurementsReceived(GnssMeasurementsEvent eventArgs) {
-                Log.d(TAG, "onGnssMeasurementsReceived: " + eventArgs.toString());
+                Log.d(TAG, "onGnssMeasurementsReceived: " + eventArgs.getMeasurements().size());
 
                 super.onGnssMeasurementsReceived(eventArgs);
                 HashMap<String, Object> resultMap = new HashMap<>();
