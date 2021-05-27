@@ -10,15 +10,19 @@ raw_gnss allows you to easily fetch the GNSSMeasurementEvents and GNSSNavigation
 
         StreamBuilder<GnssMeasurementModel>(
           builder: (context, snapshot) {
-            if(snapshot.data == null) {
+            if (snapshot.data == null) {
               return CircularProgressIndicator();
             }
-            
-            return ListView.builder(itemBuilder: (context, position) {
-              return ListTile(
-                title: Text("Satellite: ${snapshot.data.measurements[position].svid}"),
-              );
-            });
+
+            return ListView.builder(
+                itemBuilder: (context, position) {
+                  return ListTile(
+                    title: Text(
+                        "Satellite: ${snapshot.data!.measurements![position].svid}"),
+                  );
+                },
+                itemCount: snapshot.data!.measurements?.length ?? 0,
+            );
           },
           stream: RawGnss().gnssMeasurementEvents,
         ),
