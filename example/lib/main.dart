@@ -16,7 +16,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomeScreen(),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Demo"),
+        ),
+        body: HomeScreen(),
+      ),
     );
   }
 }
@@ -27,24 +32,41 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  var _hasPermissions = false;
+  late RawGnss _gnss;
+
   @override
   void initState() {
     super.initState();
-    Permission.location.request().then((value) => setState(() {}));
+
+    _gnss = RawGnss();
+
+    Permission.location
+        .request()
+        .then((value) => setState(() => _hasPermissions = value.isGranted));
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Demo"),
-      ),
-      body: Center(
-        child: StreamBuilder<GnssMeasurementModel>(builder: (context, snapshot) {
-          return Text(snapshot.data.string ?? "");
-        }, stream: RawGnss().gnssMeasurementEvents,),
-      ),
-    );
-  }
-}
+  Widget build(BuildContext context) => _hasPermissions
+      ? StreamBuilder<GnssMeasurementModel>(
+          builder: (context, snapshot) {
+            if (snapshot.data == null) {
+              return _loadingSpinner();
+            } else {
+              return ListView.builder(
+                itemBuilder: (context, position) {
+                  return ListTile(
+                    title: Text(
+                        "Satellite: ${snapshot.data!.measurements![position].svid}"),
+                  );
+                },
+                itemCount: snapshot.data!.measurements?.length ?? 0,
+              );
+            }
+          },
+          stream: _gnss.gnssMeasurementEvents,
+        )
+      : _loadingSpinner();
 
+  Widget _loadingSpinner() => const Center(child: CircularProgressIndicator());
+}

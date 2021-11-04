@@ -12,27 +12,26 @@ class RawGnss {
   static const EventChannel _gnssNavigationMessageEventChannel =
       EventChannel('dev.joshi.raw_gnss/gnss_navigation_message');
 
-  Stream<GnssMeasurementModel> _gnssMeasurementEvents;
-  Stream _gnssNavigationMessageEvents;
+  Stream<GnssMeasurementModel>? _gnssMeasurementEvents;
+  Stream? _gnssNavigationMessageEvents;
 
   /// Getter for GnssMeasurement events
   Stream<GnssMeasurementModel> get gnssMeasurementEvents {
     if (_gnssMeasurementEvents == null) {
       _gnssMeasurementEvents = _gnssMeasurementEventChannel
           .receiveBroadcastStream()
-          .map((dynamic event) => GnssMeasurementModel.fromJson(
-              new Map<String, dynamic>.from(event)));
+          .map((event) => GnssMeasurementModel.fromJson(
+              (event as Map<dynamic, dynamic>).cast()));
     }
-    return _gnssMeasurementEvents;
+    return _gnssMeasurementEvents!;
   }
 
   /// Getter for GnssNavigationMessage events
   Stream get gnssNavigationMessageEvents {
     if (_gnssNavigationMessageEvents == null) {
-      _gnssNavigationMessageEvents = _gnssNavigationMessageEventChannel
-          .receiveBroadcastStream()
-          .map((dynamic event) => event);
+      _gnssNavigationMessageEvents =
+          _gnssNavigationMessageEventChannel.receiveBroadcastStream();
     }
-    return _gnssNavigationMessageEvents;
+    return _gnssNavigationMessageEvents!;
   }
 }

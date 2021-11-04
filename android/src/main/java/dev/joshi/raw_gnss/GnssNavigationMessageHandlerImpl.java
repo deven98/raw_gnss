@@ -1,48 +1,24 @@
 package dev.joshi.raw_gnss;
 
-import android.location.GnssMeasurement;
-import android.location.GnssMeasurementsEvent;
 import android.location.GnssNavigationMessage;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import io.flutter.plugin.common.EventChannel;
 
 public class GnssNavigationMessageHandlerImpl implements EventChannel.StreamHandler {
+    private static final String TAG = "GNSS_MESSAGE";
+
     LocationManager locationManager;
     GnssNavigationMessage.Callback listener;
-    private Handler uiThreadHandler = new Handler(Looper.getMainLooper());
-    LocationListener locationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-
-        }
-
-        @Override
-        public void onStatusChanged(String s, int i, Bundle bundle) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String s) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String s) {
-
-        }
-    };
+    private final Handler uiThreadHandler = new Handler(Looper.getMainLooper());
 
     GnssNavigationMessageHandlerImpl(LocationManager manager) {
         locationManager = manager;
@@ -51,16 +27,16 @@ public class GnssNavigationMessageHandlerImpl implements EventChannel.StreamHand
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onListen(Object arguments, EventChannel.EventSink events) {
+        Log.d(TAG, "onListen");
         listener = createSensorEventListener(events);
         locationManager.registerGnssNavigationMessageCallback(listener);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0.0f, locationListener);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCancel(Object arguments) {
+        Log.d(TAG, "onCancel");
         locationManager.unregisterGnssNavigationMessageCallback(listener);
-        locationManager.removeUpdates(locationListener);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -68,6 +44,8 @@ public class GnssNavigationMessageHandlerImpl implements EventChannel.StreamHand
         return new GnssNavigationMessage.Callback() {
             @Override
             public void onGnssNavigationMessageReceived(GnssNavigationMessage event) {
+                Log.d(TAG, "onGnssNavigationMessageReceived: " + event.toString());
+
                 super.onGnssNavigationMessageReceived(event);
                 HashMap<String, Object> resultMap = new HashMap<>();
                 resultMap.put("data", event.getData());
@@ -83,6 +61,7 @@ public class GnssNavigationMessageHandlerImpl implements EventChannel.StreamHand
 
             @Override
             public void onStatusChanged(int status) {
+                Log.d(TAG, "onStatusChanged: " + status);
                 super.onStatusChanged(status);
             }
         };
