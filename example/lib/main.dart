@@ -40,13 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text("Demo"),
       ),
       body: Center(
-        child: StreamBuilder<GnssMeasurementModel>(
-          builder: (context, snapshot) {
-            return Text(snapshot.data.string ?? "");
-          },
-          stream: RawGnss().gnssMeasurementEvents,
-        ),
+        child: StreamBuilder<GnssMeasurementModel>(builder: (context, snapshot) {
+          return Text(snapshot.data.string ?? "");
+        }, stream: RawGnss().gnssMeasurementEvents,),
       ),
     );
   }
 }
+
