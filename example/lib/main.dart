@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:raw_gnss/gnss_measurement_model.dart';
+import 'package:raw_gnss/gnss_status_model.dart';
 import 'package:raw_gnss/raw_gnss.dart';
 
 void main() {
@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) => _hasPermissions
-      ? StreamBuilder<GnssMeasurementModel>(
+      ? StreamBuilder<GnssStatusModel>(
           builder: (context, snapshot) {
             if (snapshot.data == null) {
               return _loadingSpinner();
@@ -57,14 +57,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemBuilder: (context, position) {
                   return ListTile(
                     title: Text(
-                        "Satellite: ${snapshot.data!.measurements![position].svid}"),
+                        "Satellite: ${snapshot.data!.status![position].azimuthDegrees}"),
                   );
                 },
-                itemCount: snapshot.data!.measurements?.length ?? 0,
+                itemCount: snapshot.data!.satelliteCount ?? 0,
               );
             }
           },
-          stream: _gnss.gnssMeasurementEvents,
+          stream: _gnss.gnssStatusEvents,
         )
       : _loadingSpinner();
 
