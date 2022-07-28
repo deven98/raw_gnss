@@ -1,4 +1,8 @@
-# raw_gnss
+<h1 align="center">raw_gnss 📡</h1></br>
+<p align="center">
+raw_gnss 📡 makes it easy to fetch raw GNSS data including GNSS Measurement Events, GNSS Navigation Messages, and GNSS Status Events.
+</p>
+<br>
 
 ## Get Raw GNSS Data On Android
 
