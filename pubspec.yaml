@@ -1,6 +1,6 @@
 name: raw_gnss
-description: Get Raw GNSS Data Points for Android on Flutter
-version: 1.1.0
+description: Fetch Raw GNSS Data - GNSS Measurement Events, Navigation Messages, and Status Events
+version: 1.1.0+1
 homepage: https://www.github.com/deven98/raw_gnss
 
 environment:
