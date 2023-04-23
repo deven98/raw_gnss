@@ -41,9 +41,9 @@ class RawGnss {
     return _gnssNavigationMessageEvents!;
   }
 
-  /// Getter for GnssMeasurement events
+  /// Getter for GnssStatus events
   Stream<GnssStatusModel> get gnssStatusEvents {
-    if (_gnssMeasurementEvents == null) {
+    if (_gnssStatusEvents == null) {
       _gnssStatusEvents = _gnssStatusEventChannel.receiveBroadcastStream().map(
           (event) => GnssStatusModel.fromJson(
               (event as Map<dynamic, dynamic>).cast()));
